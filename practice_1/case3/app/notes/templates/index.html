@@ -1,0 +1,53 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Welcome to Notes{% endblock %}
+
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2 class="mb-4">Your notes</h2>
+                {% if notes %}
+                    <div class="list-group">
+                        {% for note in notes %}
+                            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                <a href="{% url 'note_view' note.pk %}" class="flex-grow-1" style="text-decoration: none; color: inherit;">
+                                    {{ note.title }}
+                                </a>
+                                <form action="{% url 'note_delete' note.pk %}" method="post" class="mb-0">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this note?')">Delete</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                {% else %}
+                    <p>No notes found.</p>
+                {% endif %}
+                <div class="w-100">
+                    <a href="{% url 'note_create' %}" class="btn btn-primary mt-3 w-100">Add New Note</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="text-center">
+            <h1>Welcome to Notes</h1>
+            <p class="lead">
+                A simple and effective service for managing your notes. Keep track of your thoughts, ideas, and important
+                information all in one place. Start by registering or logging in to access your personal notes.
+            </p>
+            <p class="lead">
+                <a href="{% url 'register' %}" class="btn btn-lg btn-light fw-bold border-white bg-white w-25">Register</a>
+                <a href="{% url 'login' %}" class="btn btn-lg btn-primary w-25">
+                    Login
+                </a>
+            </p>
+        </div>
+    {% endif %}
+
+
+
+
+{% endblock %}

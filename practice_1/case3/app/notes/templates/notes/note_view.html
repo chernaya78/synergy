@@ -1,0 +1,17 @@
+<!-- templates/note_view.html -->
+{% extends "base.html" %}
+
+{% block title %}View Note{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <h1>{{ note.title }}</h1>
+        <p>{{ note.content|linebreaksbr }}</p>
+
+        <div class="mt-5 w-100">
+            <p>Note created at: {{ note.created_at }}</p>
+            <a href="{% url 'index' %}" class="btn btn-primary w-100">Back to Notes</a>
+        </div>
+
+    </div>
+{% endblock %}
